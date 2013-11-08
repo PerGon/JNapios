@@ -52,11 +52,9 @@ public class ApplicationBootstrap {
 	// Based on:
 	// http://hc.apache.org/httpcomponents-core-ga/httpcore/examples/org/apache/http/examples/ElementalHttpServer.java
 
-
 	private static int port = 0;
 	private static String filePath = null;
 	private static String logFolder = null;
-
 
 	public static void main(String[] args) throws Exception {
 
