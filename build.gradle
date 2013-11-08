@@ -1,0 +1,63 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.7
+version = '0.1-alpha'
+jar {
+	manifest {
+		attributes 'JNapios': 'JNapios', 'Implementation-Version': version
+		manifest.attributes("Main-Class": "org.jnapios.ApplicationBootstrap")
+	}
+
+	/*
+	 *This will create a "fat jar". The jar file generated will include all it's dependencies.
+	 *It will be a "big" file, but it can be run with just "java -jar file.jar"
+	 *without the need to worry about jar dependencies
+	 */
+	from {
+		configurations.compile.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+	}
+}
+
+repositories { mavenCentral() }
+
+buildscript {
+	repositories { mavenCentral() }
+	dependencies { classpath 'net.sf.proguard:proguard-gradle:4.10' }
+}
+
+
+
+dependencies {
+	compile 'org.apache.httpcomponents:httpcore:4.3',
+			'com.google.code.gson:gson:2.2.4',
+			'org.tinylog:tinylog:0.8',
+			'org.apache.commons:commons-lang3:3.1'
+}
+
+task minify(type: proguard.gradle.ProGuardTask) {
+
+	ext {
+		outDir = file("${buildDir}/libs/proguard")
+		obfuscatedJar = "${outDir}/${jar.archiveName}"
+	}
+	outDir.mkdirs()
+
+	injars jar.archivePath
+	
+	outjars obfuscatedJar
+
+	libraryjars System.getProperty("java.home") + '/lib/rt.jar'
+
+	keep 'public class org.jnapios.ApplicationBootstrap {  \
+			public static void main(java.lang.String[]);  \
+		}'
+	
+	printmapping "${outDir}/mappings.out"
+	
+	doLast {
+	  logger.lifecycle "[Proguard] Generated obfuscated JAR in ${obfuscatedJar}"
+	}
+}
