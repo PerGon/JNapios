@@ -25,6 +25,7 @@ repositories { mavenCentral() }
 
 buildscript {
 	repositories { mavenCentral() }
+	//to enable the use of proguard
 	dependencies { classpath 'net.sf.proguard:proguard-gradle:4.10' }
 }
 
@@ -37,6 +38,10 @@ dependencies {
 			'org.apache.commons:commons-lang3:3.1'
 }
 
+/*
+ * Proguard is a tool that performs a bunch of tasks in the generated jar file.
+ * "...Java class file shrinker, optimizer, obfuscator, and preverifier." from: http://proguard.sourceforge.net/ 
+ */
 task minify(type: proguard.gradle.ProGuardTask) {
 
 	ext {
@@ -51,6 +56,7 @@ task minify(type: proguard.gradle.ProGuardTask) {
 
 	libraryjars System.getProperty("java.home") + '/lib/rt.jar'
 
+	//application entry-point
 	keep 'public class org.jnapios.ApplicationBootstrap {  \
 			public static void main(java.lang.String[]);  \
 		}'

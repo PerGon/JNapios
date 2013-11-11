@@ -6,6 +6,9 @@ import java.util.List;
 import org.pmw.tinylog.LoggingLevel;
 import org.pmw.tinylog.writers.LoggingWriter;
 
+/**
+ * Provides the ability of tinylog to log into more than one writer.
+ */
 public class MultiWriter implements LoggingWriter {
 	private List<LoggingWriter> writers = new ArrayList<>();
 

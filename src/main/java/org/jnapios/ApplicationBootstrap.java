@@ -86,11 +86,14 @@ public class ApplicationBootstrap {
 		t.start();
 	}
 
+	// Logger configuration
 	private static void configureTinyLog() throws IOException {
 		Configurator.currentConfig().level(LoggingLevel.INFO).activate();
 		Configurator.currentConfig().formatPattern("{date:yyyy-MM-dd HH:mm:ss:SSS} {level}: {class}.{method}():{line}\t{message}").activate();
 	}
 
+	// Logger folder configuration. To be done after the parameter
+	// initialization
 	private static void configureTinyLogFolder() throws IOException {
 
 		File logFolderFile = new File(logFolder);
