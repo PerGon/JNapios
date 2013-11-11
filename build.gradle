@@ -61,6 +61,9 @@ task minify(type: proguard.gradle.ProGuardTask) {
 			public static void main(java.lang.String[]);  \
 		}'
 	
+	//we don't need obfuscation. And it breaks the json format that we want.
+	dontobfuscate
+	
 	printmapping "${outDir}/mappings.out"
 	
 	doLast {
