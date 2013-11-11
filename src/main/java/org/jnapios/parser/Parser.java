@@ -20,8 +20,12 @@ import com.google.gson.Gson;
 
 public class Parser {
 
-	private static String host = "hoststatus";
-	private static String service = "servicestatus";
+	private static String HOST = "hoststatus";
+	private static String SERVICE = "servicestatus";
+
+	private static String SERVICE_DESCRIPTION = "service_description";
+	private static String CURRENT_STATE = "current_state";
+	private static String HOST_NAME = "host_name";
 
 	public static String parser(File file) throws IOException {
 
@@ -30,8 +34,8 @@ public class Parser {
 
 		// Gets all objects (servers or services) from the file into different
 		// lists
-		List<Map<String, String>> hostList = getObjectWithProperties(fileContent, host + " {", "}");
-		List<Map<String, String>> serviceList = getObjectWithProperties(fileContent, service + " {", "}");
+		List<Map<String, String>> hostList = getObjectWithProperties(fileContent, HOST + " {", "}");
+		List<Map<String, String>> serviceList = getObjectWithProperties(fileContent, SERVICE + " {", "}");
 
 		// parses all the list of servers to create a list of Server objects
 		List<Server> serverList = createServerList(hostList);
@@ -51,12 +55,12 @@ public class Parser {
 	private static void populateWithServices(Server server, List<Map<String, String>> serviceList) {
 
 		for (Map<String, String> serviceMap : serviceList) {
-			if (serviceMap.get("host_name").compareTo(server.getName()) == 0) {
+			if (serviceMap.get(HOST_NAME).compareTo(server.getName()) == 0) {
 				Service service = new Service();
-				service.setName(serviceMap.get("service_description"));
-				service.setState(Integer.parseInt(serviceMap.get("current_state")));
-				serviceMap.remove("service_description");
-				serviceMap.remove("current_state");
+				service.setName(serviceMap.get(SERVICE_DESCRIPTION));
+				service.setState(Integer.parseInt(serviceMap.get(CURRENT_STATE)));
+				serviceMap.remove(SERVICE_DESCRIPTION);
+				serviceMap.remove(CURRENT_STATE);
 				service.getProperties().putAll(serviceMap);
 				server.getServiceList().add(service);
 			}
@@ -67,10 +71,10 @@ public class Parser {
 		List<Server> serverList = new ArrayList<>();
 		for (Map<String, String> host : hostList) {
 			Server server = new Server();
-			server.setName(host.get("host_name"));
-			server.setState(Integer.parseInt(host.get("current_state")));
-			host.remove("host_name");
-			host.remove("current_state");
+			server.setName(host.get(HOST_NAME));
+			server.setState(Integer.parseInt(host.get(CURRENT_STATE)));
+			host.remove(HOST_NAME);
+			host.remove(CURRENT_STATE);
 			server.setProperties(host);
 			serverList.add(server);
 		}

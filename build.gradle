@@ -63,6 +63,8 @@ task minify(type: proguard.gradle.ProGuardTask) {
 	
 	//we don't need obfuscation. And it breaks the json format that we want.
 	dontobfuscate
+	//Optimizations break the code. The parser works in a different way... probably it should be rewrited, but not for now.
+	dontoptimize
 	
 	printmapping "${outDir}/mappings.out"
 	
