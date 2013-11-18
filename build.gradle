@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 
 sourceCompatibility = 1.7
-version = '0.1-alpha'
+version = '0.1-beta'
 jar {
 	manifest {
 		attributes 'JNapios': 'JNapios', 'Implementation-Version': version

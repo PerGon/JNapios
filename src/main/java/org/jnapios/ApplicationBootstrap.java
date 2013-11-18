@@ -44,7 +44,6 @@ import org.pmw.tinylog.Logger;
 import org.pmw.tinylog.LoggingLevel;
 import org.pmw.tinylog.labellers.TimestampLabeller;
 import org.pmw.tinylog.policies.DailyPolicy;
-import org.pmw.tinylog.writers.ConsoleWriter;
 import org.pmw.tinylog.writers.RollingFileWriter;
 
 public class ApplicationBootstrap {
@@ -105,7 +104,6 @@ public class ApplicationBootstrap {
 
 		MultiWriter multiWritter = new MultiWriter();
 		multiWritter.addWriter(new RollingFileWriter(logFolder + "/jnapios_log.txt", 365, new TimestampLabeller("yyyy-MM-dd_HH-mm-ss"), new DailyPolicy()));
-		multiWritter.addWriter(new ConsoleWriter());
 
 		Configurator.currentConfig().writer(multiWritter).activate();
 	}
