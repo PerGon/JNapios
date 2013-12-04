@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jnapios.data.Server;
 import org.jnapios.data.Service;
 
@@ -88,7 +87,7 @@ public class Parser {
 
 	private static List<Map<String, String>> getObjectWithProperties(String fileContent, String startDelimiter, String endDelimiter) {
 		List<Map<String, String>> objectsMap = new ArrayList<>();
-		String[] objects = StringUtils.substringsBetween(fileContent, startDelimiter, endDelimiter);
+		List<String> objects = substringsBetween(fileContent, startDelimiter, endDelimiter);
 		for (String string : objects) {
 			Map<String, String> host = new HashMap<>();
 			String lines[] = string.split("\\r?\\n");
@@ -96,11 +95,50 @@ public class Parser {
 				if (line.contains("=")) {
 					String key = line.substring(0, line.indexOf('='));
 					String value = line.substring(line.indexOf('=') + 1);
-					host.put(StringUtils.trim(key), value);
+					host.put(trim(key), value);
 				}
 			}
 			objectsMap.add(host);
 		}
 		return objectsMap;
+	}
+
+	private static String trim(String str) {
+		return str == null ? null : str.trim();
+	}
+
+	private static List<String> substringsBetween(String str, String open, String close) {
+		if (str == null || isEmpty(open) || isEmpty(close)) {
+			return null;
+		}
+		int strLen = str.length();
+		if (strLen == 0) {
+			return new ArrayList<>();
+		}
+		int closeLen = close.length();
+		int openLen = open.length();
+		List<String> list = new ArrayList<String>();
+		int pos = 0;
+		while (pos < strLen - closeLen) {
+			int start = str.indexOf(open, pos);
+			if (start < 0) {
+				break;
+			}
+			start += openLen;
+			int end = str.indexOf(close, start);
+			if (end < 0) {
+				break;
+			}
+			list.add(str.substring(start, end));
+			pos = end + closeLen;
+		}
+		if (list.isEmpty()) {
+			return null;
+		}
+		return list;
+	}
+
+	private static boolean isEmpty(CharSequence cs) {
+		return cs == null || cs.length() == 0;
 	}
 }

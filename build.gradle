@@ -34,8 +34,7 @@ buildscript {
 dependencies {
 	compile 'org.apache.httpcomponents:httpcore:4.3',
 			'com.google.code.gson:gson:2.2.4',
-			'org.tinylog:tinylog:0.8',
-			'org.apache.commons:commons-lang3:3.1'
+			'org.tinylog:tinylog:0.8'
 }
 
 /*
