@@ -1,8 +1,8 @@
 apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 
 sourceCompatibility = 1.7
-version = '0.1-beta'
+version = '0.1-rc'
 jar {
 	manifest {
 		attributes 'JNapios': 'JNapios', 'Implementation-Version': version
@@ -35,6 +35,8 @@ dependencies {
 	compile 'org.apache.httpcomponents:httpcore:4.3',
 			'com.google.code.gson:gson:2.2.4',
 			'org.tinylog:tinylog:0.8'
+
+    testCompile 'junit:junit:4.11'
 }
 
 /*
