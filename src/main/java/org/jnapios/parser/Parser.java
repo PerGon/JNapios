@@ -16,12 +16,17 @@ import java.util.Map;
 
 public class Parser {
 
-    private static String HOST = "hoststatus";
-    private static String SERVICE = "servicestatus";
+    private static final char PROPERTY_SEPARATOR = '=';
+    private static final String PROPERTY_SEPARATOR_STRING = "=";
+    private static final String LINE_SPLITTER_REG_EX = "\\r?\\n";
+    private static final String OPEN_BRACKETS = " {";
+    private static final String CLOSE_BRACKETS = "}";
+    private static final String HOST = "hoststatus";
+    private static final String SERVICE = "servicestatus";
 
-    private static String SERVICE_DESCRIPTION = "service_description";
-    private static String CURRENT_STATE = "current_state";
-    private static String HOST_NAME = "host_name";
+    private static final String SERVICE_DESCRIPTION = "service_description";
+    private static final String CURRENT_STATE = "current_state";
+    private static final String HOST_NAME = "host_name";
 
     public static String parser(File file) throws IOException {
 
@@ -30,8 +35,8 @@ public class Parser {
 
         // Gets all objects (servers or services) from the file into different
         // lists
-        List<Map<String, String>> serverAsMapList = getObjectWithProperties(fileContent, HOST + " {", "}");
-        List<Map<String, String>> serviceAsMapList = getObjectWithProperties(fileContent, SERVICE + " {", "}");
+        List<Map<String, String>> serverAsMapList = getObjectWithProperties(fileContent, HOST + OPEN_BRACKETS, CLOSE_BRACKETS);
+        List<Map<String, String>> serviceAsMapList = getObjectWithProperties(fileContent, SERVICE + OPEN_BRACKETS, CLOSE_BRACKETS);
 
         // parses all the list of servers to create a list of Server objects
         List<Server> serverList = createServerList(serverAsMapList);
@@ -90,16 +95,16 @@ public class Parser {
 
     private static Map<String, String> getObjectWithProperties(String string) {
         Map<String, String> objectWithProperties = new HashMap<>();
-        String lines[] = string.split("\\r?\\n");
+        String lines[] = string.split(LINE_SPLITTER_REG_EX);
         for (String line : lines)
             checkIfLineIsPropertyAndAddToPropertiesMap(objectWithProperties, line);
         return objectWithProperties;
     }
 
     private static void checkIfLineIsPropertyAndAddToPropertiesMap(Map<String, String> host, String line) {
-        if (line.contains("=")) {
-            String key = line.substring(0, line.indexOf('='));
-            String value = line.substring(line.indexOf('=') + 1);
+        if (line.contains(PROPERTY_SEPARATOR_STRING)) {
+            String key = line.substring(0, line.indexOf(PROPERTY_SEPARATOR));
+            String value = line.substring(line.indexOf(PROPERTY_SEPARATOR) + 1);
             host.put(StringUtils.trim(key), value);
         }
     }
