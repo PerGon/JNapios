@@ -12,4 +12,4 @@ Build the project with gradle.
 
 Then in the terminal:
 
-java -jar JNapios.jar port=9001 statusFile=/path/to/nagios/status.dat logFolder=/path/to/log/folder
+./JNapios port=9001 statusFile=/path/to/nagios/status.dat logFolder=/path/to/log/folder

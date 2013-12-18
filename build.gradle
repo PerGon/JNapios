@@ -1,6 +1,8 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 
+import org.apache.tools.ant.filters.ReplaceTokens
+
 sourceCompatibility = 1.7
 version = '0.1-rc'
 jar {
@@ -19,6 +21,14 @@ jar {
 			it.isDirectory() ? it : zipTree(it)
 		}
 	}
+
+    doLast{
+        copy {
+            from 'JNapios.sh'
+            into 'build/libs'
+            filter(ReplaceTokens, tokens: [jar_file: jar.archiveName])
+        }
+    }
 }
 
 repositories { mavenCentral() }
