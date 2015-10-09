@@ -49,6 +49,10 @@ dependencies {
     testCompile 'junit:junit:4.11'
 }
 
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.1'
+}
+
 /*
  * Proguard is a tool that performs a bunch of tasks in the generated jar file.
  * "...Java class file shrinker, optimizer, obfuscator, and preverifier." from: http://proguard.sourceforge.net/ 
