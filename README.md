@@ -10,6 +10,12 @@ Usage
 
 Build the project with gradle.
 
+```
+./gradlew jar
+```
+
 Then in the terminal:
 
+```
 ./JNapios port=9001 statusFile=/path/to/nagios/status.dat logFolder=/path/to/log/folder
+```
